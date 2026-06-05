@@ -1,0 +1,70 @@
+from bs4 import BeautifulSoup
+import requests
+import os
+
+
+def isDirectory(url):
+    if len(url) > 1 and not url.startswith("/") and url.endswith('/'):
+        return True
+    else:
+        return False
+
+def isFile(url):
+    desired_file_types = [".txt", ".sci", ".pha", ".phr", ".phx", ".sl2", ".pl2", "rl2"]
+    return any(map(url.endswith, desired_file_types))
+
+def extract_path(baseurl, currentUrl, basePath):
+    curlen = len(currentUrl)
+    baselen = len(baseurl)
+    if curlen > baselen:
+        return f"{basePath}/{currentUrl[baselen:]}"
+    else:
+        return basePath
+
+def extract_parent_dir(path):
+    return "/".join(path.split("/")[:-1])
+
+
+def findLinks(url,basePath):
+    linkQueue = [url]
+    counter = 0
+    seen = set()
+
+    while linkQueue:
+        toParseUrl = linkQueue.pop()
+        if toParseUrl in seen:
+            continue
+
+        seen.add(toParseUrl)
+        page = requests.get(toParseUrl).content
+        bsObj = BeautifulSoup(page, 'html.parser')
+        maybe_directories = bsObj.find_all('a', href=True)
+
+
+        for link in maybe_directories:
+            newUrl = toParseUrl + link['href']
+            if isDirectory(link['href']):
+                linkQueue.append(newUrl)
+            elif isFile(newUrl):
+                fp = extract_path(url, newUrl, basePath)
+                dp = extract_parent_dir(fp)
+                if not os.path.isdir(dp):
+                    os.makedirs(dp)
+
+                res = requests.get(newUrl)
+                if res.status_code == 200:
+                    with open(fp, 'wb') as file:
+                        file.write(res.content)
+                    print(f"wrote{fp}")
+
+
+            elif counter <= 5:
+                print(f"garbo: {link['href']}")
+
+
+    print("baibai")
+
+
+startUrl = "http://ulysses.physik.uni-kiel.de/costep/"
+basePath = "/home/chuang/Projects/ephin-predict/og-data"
+findLinks(startUrl, basePath)

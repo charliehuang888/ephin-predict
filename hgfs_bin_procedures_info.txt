@@ -1,0 +1,188 @@
+ 
+g0scr_new.pro:
+
+adjust:
+year (lines 2,3, 56)
+days per year (line 7/8)
+
+input1: ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+input2: ephin .phx files
+location: /mnt/hgfs/old_data/data/data/sephin/phx/epiYYDDD.phx
+
+output: 1 minute array of dead time from anti-coincidence detector
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/g0_nYYYY.asc identical, ok
+***********************************************
+dtscr_new.pro:
+input1: ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+input2: ephin .phx files
+location: /mnt/hgfs/old_data/data/data/sephin/phx/epiYYDDD.phx
+
+adjust: 
+*see above*
+
+output: 1 minute array of correction factor, critical flux level indicator, relative dead times of A and G detectors
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/edead_nYYYY.asc    id, ok
+***********************************************
+** might be obsolete ***
+gammascr_new.pro
+input1: ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+input2: ephin .phx files
+location: /mnt/hgfs/old_data/data/data/sephin/phx/epiYYDDD.phx
+
+adjust:
+*see above*
+
+output: 1 miute array of detector A count rate
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/gamma_nYYYY.asc    id, ok
+***********************************************
+****
+statscr_new.pro:
+
+input1: ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+input2: ephin .phx files
+location: /mnt/hgfs/old_data/data/data/sephin/phx/epiYYDDD.phx
+
+adjust: 
+input year (line 1/2)
+days per year (line 6/7)
+output year (line 43)
+
+output: 1 minute array of instrument status
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/estat_nYYYY.asc      ok, id
+***********************************************
+pha_statscr_new.pro
+
+input1:  ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+input2: ephin .phx files
+location: /mnt/hgfs/old_data/data/data/sephin/phx/epiYYDDD.phx
+
+
+output1: 1 min data of actual number of particles in the correct channel (electrons in e150 etc.) and number of total particles measured in each channel
+/mnt/hgfs/old_data/home/ap1/ephin/hires/pha_stat_nYYYY.asc'  ok
+
+output2: 1 min data of actual number of particles in the correct channel (electrons in e150 etc.) only
+/mnt/hgfs/old_data/home/ap1/ephin/hires/epherr_nYYYY.asc'    ok
+
+***********************************************
+eminscr_ges_new.pro:
+
+input1: ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+adjust: 
+input year (line 1/2)
+day of year (line 8/9)
+output year (line 430)
+
+output: 1 minute arrays of e150,e300,e1300,p4,p8,p25,h4,h8,h25 normalized count rates
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/ephgeszr_nYYYY.asc    id   ok
+***********************************************
+elr4_binscr_year.pro:
+input1: Boehm electron matrices ela101.dat, ela102.dat, ela103.dat, ela104.dat
+location: /mnt/hgfs/old_data/home/ap1/ephin/el_matrix/ela10*.dat
+
+; input2: dead time files edead_YYYY'.asc
+; location: /mnt/hgfs/old_data/home/ap1/ephin/hires/edead_YYYY.asc
+
+input3: electron count rates ephgeszr_YYYY.asc
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/ephgeszr_YYYY.asc
+
+; input4: detector A dead time correction (X-rays, gammas) gamma_YYYY.asc
+; location: /mnt/hgfs/old_data/home/ap1/ephin/hires/gamma_YYYY.asc
+
+input5: status array estat_YYYY.asc
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/estat_YYYY.asc
+
+input6: daily phx data ep[h/i]YYDDD.phx
+location: /mnt/hgfs/old_data/data/data/sephin/phx/ep[h/i]YYDDD.phx
+
+adjust:
+days per year (line 2)
+yearstr (line 3)
+ynamestr h95 ...h99, i00... i06 (line 4)
+***in case of data gap: data will be written until data gap***
+run program until error message
+exit program
+adjust ddd: new start day (line 131)
+run again (until next data gap or end)
+
+output: daily electron spectrogram 1 min res
+location: /mnt/hgfs/old_data/data/data/sephin/l2bin/l2binz_e_YYYY_DDD.asc
+********************************************************************
+eminscr_rev_new.pro
+input1: daily phx data ep[h/i]YYDDD.phx
+location: /mnt/hgfs/old_data/data/data/sephin/phx/ep[h/i]YYDDD.phx
+
+input2: ephin .sci files
+location: /mnt/hgfs/old_data/data/data/sephin/sci/epiYYDDD.sci
+
+output1: 
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/eflr_nYYYY.asc'
+
+output2:
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/epherr_nn2003.asc
+********************************************************************
+fl_binscr_year_new.pro
+
+input1:
+/mnt/hgfs/old_data/home/ap1/ephin/hires/eflr_nYYYY.asc
+
+input2: 1 min data of actual number of particles in the correct channel (electrons in e150 etc.) only
+/mnt/hgfs/home/ap1/ephin/hires/epherr_nYYYY.asc'
+
+;input3: detector A dead time correction (X-rays, gammas) gamma_YYYY.asc
+;location: /mnt/hgfs/old_data/home/ap1/ephin/hires/gamma_nYYYY.asc
+
+input4: dead time files edead_nYYYY'.asc
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/edead_nYYYY.asc
+
+input5: status array estat_nYYYY.asc
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/estat_nYYYY.asc
+
+input6: daily phx data ep[h/i]YYDDD.phx
+location: /mnt/hgfs/old_data/data/data/sephin/phx/ep[h/i]YYDDD.phx
+
+output1: daily helium spectrogram 2 min res
+location:/mnt/hgfs/old_data/data/data/sephin/l2bin/l2bin_he_nYYYY_DDD.asc
+
+output2: daily proton spectrogram 2 min res
+location:/mnt/hgfs/old_data/data/data/sephin/l2bin/l2bin_p_nYYYY_DDD.asc
+************************************************************************
+binpl4_ephs_new.pro
+
+input1: proton 2-min binned data
+location: /mnt/hgfs/old_data/data/data/sephin/l2bin/l2bin_p_nYYYY_DDD.asc
+
+input2: helium 2-min binned data
+location: /mnt/hgfs/old_data/data/data/sephin/l2bin/l2bin_he_nYYYY_DDD.asc
+
+input3: electrons 1-min binned data
+location: /mnt/hgfs/old_data/data/data/sephin/l2bin/l2bin4_e_nYYYY_DDD.asc
+
+input4: status array estat_YYYY.asc
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/estat_nYYYY.asc
+
+input5: dead time files edead_nYYYY'.asc
+location: /mnt/hgfs/old_data/home/ap1/ephin/hires/edead_nYYYY.asc
+
+adjust:
+NOTE: SENSITIVE TO FILE TREE AND NAME CHANGE (lines 58 and 59 and 488)
+days per year (line 3)
+yearstr (line 4)
+
+
+
+
+output1: dynamic daily spectra with 1- (electrons) or 2-minute (ions) resolution
+location: /mnt/hgfs/old_data/home/ap1/ephin/plots/bin/binstat4_all_nYYYY_DDD.ps
+
