@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import os
+import time
 
 
 def isDirectory(url):
@@ -47,15 +48,26 @@ def findLinks(url,basePath):
                 linkQueue.append(newUrl)
             elif isFile(newUrl):
                 fp = extract_path(url, newUrl, basePath)
+                if os.path.isfile(fp):
+                    continue
+
                 dp = extract_parent_dir(fp)
                 if not os.path.isdir(dp):
                     os.makedirs(dp)
 
-                res = requests.get(newUrl)
-                if res.status_code == 200:
-                    with open(fp, 'wb') as file:
-                        file.write(res.content)
-                    print(f"wrote{fp}")
+                for i in range(15):
+                    try:
+                        res = requests.get(newUrl)
+                        if res.status_code == 200:
+                            with open(fp, 'wb') as file:
+                                file.write(res.content)
+                                print(f"wrote{fp}")
+                    except ConnectionRefusedError:
+                        time.sleep(10)
+                        continue
+                    else:
+                        break
+
 
 
             elif counter <= 5:
