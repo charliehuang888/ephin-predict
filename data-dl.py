@@ -55,23 +55,19 @@ def findLinks(url,basePath):
                 if not os.path.isdir(dp):
                     os.makedirs(dp)
 
-                for i in range(15):
+                for i in range(10):
                     try:
                         res = requests.get(newUrl)
                         if res.status_code == 200:
                             with open(fp, 'wb') as file:
                                 file.write(res.content)
                                 print(f"wrote{fp}")
-                    except ConnectionRefusedError:
+                    except:
                         time.sleep(10)
                         continue
                     else:
                         break
 
-
-
-            elif counter <= 5:
-                print(f"garbo: {link['href']}")
 
 
     print("baibai")
