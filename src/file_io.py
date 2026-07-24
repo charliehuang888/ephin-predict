@@ -1,7 +1,7 @@
 import pandas as pd
 import pathlib
 from src import base_functions as bf
-from src.constants import PHA_COLUMNS
+from src.constants import PHA_COLUMNS, SCI_COLUMNS
 
 
 # returns dir path of file type
@@ -41,12 +41,16 @@ def get_data_files(data_type, year="", day=""):
     file_type_path = get_data_dir(data_type=data_type)
     if year:
         file_type_path = file_type_path / year
-
     pattern = f"*{globyear}{globday}.*[!g][!z]"
-    return sorted(file_type_path.glob(pattern))
+    return sorted(file_type_path.rglob(pattern))
 
 def read_pha(file_path):
     pha_data = pd.read_csv(file_path, sep= " ")
     pha_data = pha_data.iloc[:,:18] # every row ends with an extra 69
     pha_data.columns = PHA_COLUMNS
     return pha_data
+
+def read_sci(file_path):
+    sci_data = pd.read_csv(file_path, sep=" ")
+    sci_data.columns = SCI_COLUMNS
+    return sci_data

@@ -1,6 +1,6 @@
 import unittest
 from src import file_io as fio
-from src.constants import PHA_COLUMNS
+from src.constants import PHA_COLUMNS, SCI_COLUMNS
 
 
 class MyTestCase(unittest.TestCase):
@@ -20,6 +20,11 @@ class MyTestCase(unittest.TestCase):
         path = fio.get_data_files("phx", "2003", "1")[0]
         df = fio.read_pha(path)
         self.assertEqual(len(PHA_COLUMNS), df.shape[1])
+
+    def test_sci_read(self):
+        path = fio.get_data_files("sci", "2001", "24")[0]
+        df = fio.read_sci(path)
+        self.assertEqual(len(SCI_COLUMNS), df.shape[1])
 
 if __name__ == '__main__':
     unittest.main()
