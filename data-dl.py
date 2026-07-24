@@ -11,7 +11,7 @@ def isDirectory(url):
         return False
 
 def isFile(url):
-    desired_file_types = [".txt", ".sci", ".pha", ".phr", ".phx", ".sl2", ".pl2", "rl2"]
+    desired_file_types = [".txt", ".sci", ".pha", ".phr", ".phx", ".sl2", ".pl2", "rl2", ".gz"]
     return any(map(url.endswith, desired_file_types))
 
 def extract_path(baseurl, currentUrl, basePath):
@@ -44,6 +44,7 @@ def findLinks(url,basePath):
 
         for link in maybe_directories:
             newUrl = toParseUrl + link['href']
+            print(newUrl)
             if isDirectory(link['href']):
                 linkQueue.append(newUrl)
             elif isFile(newUrl):
@@ -73,6 +74,6 @@ def findLinks(url,basePath):
     print("baibai")
 
 
-startUrl = "http://ulysses.physik.uni-kiel.de/costep/"
-basePath = "/home/chuang/Projects/ephin-predict/og-data"
+startUrl = "http://ulysses.physik.uni-kiel.de/costep/level1/"
+basePath = "/home/chuang/Projects/ephin-predict/og-data/level1"
 findLinks(startUrl, basePath)
