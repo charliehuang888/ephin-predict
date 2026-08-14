@@ -44,7 +44,7 @@ def findLinks(url,basePath):
 
         for link in maybe_directories:
             newUrl = toParseUrl + link['href']
-            print(newUrl)
+            # print(newUrl)
             if isDirectory(link['href']):
                 linkQueue.append(newUrl)
             elif isFile(newUrl):
@@ -62,7 +62,7 @@ def findLinks(url,basePath):
                         if res.status_code == 200:
                             with open(fp, 'wb') as file:
                                 file.write(res.content)
-                                print(f"wrote{fp}")
+                                # print(f"wrote{fp}")
                     except:
                         time.sleep(10)
                         continue

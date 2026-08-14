@@ -1,12 +1,13 @@
 import pandas as pd
 import pathlib
-from src import base_functions as bf
 from src.constants import PHA_COLUMNS, SCI_COLUMNS
 
+def get_project_root_folder():
+    return pathlib.Path(__file__).resolve().parent.parent.parent
 
 # returns dir path of file type
 def get_data_dir(data_type=""):
-    proj_root = pathlib.Path(bf.get_project_root_folder())
+    proj_root = pathlib.Path(get_project_root_folder())
     data_path = proj_root / "og-data" / "level1"
     if data_type:
         data_path = data_path / data_type
