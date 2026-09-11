@@ -1,4 +1,4 @@
-import pandas as pd
+import dask.dataframe as dd
 import pathlib
 from src.constants import PHA_COLUMNS, SCI_COLUMNS
 
@@ -46,12 +46,12 @@ def get_data_files(data_type, year="", day=""):
     return sorted(file_type_path.rglob(pattern))
 
 def read_pha(file_path):
-    pha_data = pd.read_csv(file_path, sep= " ")
+    pha_data = dd.read_csv(file_path, sep= " ")
     pha_data = pha_data.iloc[:,:18] # every row ends with an extra 69
     pha_data.columns = PHA_COLUMNS
     return pha_data
 
 def read_sci(file_path):
-    sci_data = pd.read_csv(file_path, sep=" ")
+    sci_data = dd.read_csv(file_path, sep=" ")
     sci_data.columns = SCI_COLUMNS
     return sci_data

@@ -19,7 +19,8 @@ PHA_COLUMNS: Final = (
     "d_lh_flag",
     "pha_e",
     "e_lh_flag",
-    "pr_flag"
+    "pr_flag",
+    "terminator"
 )
 
 SCI_COLUMNS: Final = (
