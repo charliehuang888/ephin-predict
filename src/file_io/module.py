@@ -45,13 +45,12 @@ def get_data_files(data_type, year="", day=""):
     pattern = f"*{globyear}{globday}.*[!g][!z]"
     return sorted(file_type_path.rglob(pattern))
 
+# functions here will throw weird ValueErrors on empty files - not handling them here for now
 def read_pha(file_path):
-    pha_data = dd.read_csv(file_path, sep= " ")
+    pha_data = dd.read_csv(file_path, sep= " ", header=None, names=PHA_COLUMNS)
     # pha_data = pha_data.iloc[:,:18] # every row ends with an extra 69
-    pha_data.columns = PHA_COLUMNS
     return pha_data
 
 def read_sci(file_path):
-    sci_data = dd.read_csv(file_path, sep=" ")
-    sci_data.columns = SCI_COLUMNS
+    sci_data = dd.read_csv(file_path, sep=" ", header=None, names=SCI_COLUMNS)
     return sci_data

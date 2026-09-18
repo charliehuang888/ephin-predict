@@ -28,11 +28,17 @@ for year in range(1995, 1997):
             sci_df = fio.read_sci(sci_fp)
             phx_df = fio.read_pha(phx_fp)
 
-        except pd.errors.EmptyDataError:
+        except pd.errors.EmptyDataError, ValueError:
             continue
 
         else:
-            combined = dd.merge_asof(phx_df, sci_df, on='ms_of_day', direction='backward')
+            combined = dd.merge_asof(
+                phx_df,
+                sci_df,
+                on='ms_of_day',
+                by=['year', 'day_of_year'],
+                allow_exact_matches=True
+            )
             dataframes.append(combined)
 
 final_df = dd.concat(dataframes)
