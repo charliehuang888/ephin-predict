@@ -27,7 +27,7 @@ def get_data_files(data_type, year="", day=""):
 
     if day:
         day_as_int = int(day)
-        assert 1 <= day_as_int <= 365
+        assert 1 <= day_as_int <= 366
         assert len(day) <= 3
         if len(day) < 3:
             day = day.rjust(3, "0")
@@ -47,7 +47,7 @@ def get_data_files(data_type, year="", day=""):
 
 def read_pha(file_path):
     pha_data = dd.read_csv(file_path, sep= " ")
-    pha_data = pha_data.iloc[:,:18] # every row ends with an extra 69
+    # pha_data = pha_data.iloc[:,:18] # every row ends with an extra 69
     pha_data.columns = PHA_COLUMNS
     return pha_data
 

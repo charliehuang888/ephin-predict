@@ -1,6 +1,7 @@
 # project stuff
 og-data/*
 .idea/*
+datasets/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
