@@ -42,4 +42,4 @@ for year in range(1995, 1997):
             dataframes.append(combined)
 
 final_df = dd.concat(dataframes)
-dd.to_csv(final_df, '../../datasets/ephin_1995_1996/phx_sci-*.csv')
+dd.to_parquet(final_df, '../../datasets/ephin_1995_1996/')
