@@ -35,3 +35,16 @@ def calc_total_energy(row, to_d=True, to_e=True):
         apply_factors += row["pha_e"] * factor_chandra.loc["pha_e", row["e_lh_flag"]]
 
     return apply_factors / magic_chandra
+
+def incidence_angle_class(row):
+    a = row['a_seg']
+    b = row['b_seg']
+    diff = (a - b) % 5
+    if a == b == 0:
+        return 0
+    elif a == b and a != 0:
+        return 1
+    elif a != b and (a == 0 or b == 0 or diff == 1 or diff ==4 ):
+        return 2
+    else:
+        return 3

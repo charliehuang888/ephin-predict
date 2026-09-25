@@ -1,6 +1,8 @@
 import file_io as fio
 import dask.dataframe as dd
+import numpy as np
 import pandas as pd
+from src import calc
 
 # match the most closest (backwards) sci row to phx row to apply ephin state to phx data for ml analysis
 dataframes = []
@@ -41,5 +43,25 @@ for year in range(1995, 1997):
             )
             dataframes.append(combined)
 
-final_df = dd.concat(dataframes)
-dd.to_parquet(final_df, '../../datasets/ephin_1995_1996/')
+joined_df = dd.concat(dataframes)
+
+# calculate derived stats
+joined_df['delta_A'] = joined_df.apply(calc.calc_de_dx, axis=1)
+joined_df['delta_ABC'] = joined_df.apply(calc.calc_total_energy, axis=1, to_d=False, to_e=False)
+joined_df['delta_D'] = joined_df.apply(calc.calc_layer_loss, axis=1, sensor='d')
+joined_df['delta_E'] = joined_df.apply(calc.calc_layer_loss, axis=1, sensor='e')
+
+# drop any rows with bad data on these columns
+delta_labels = ['delta_A', 'delta_ABC', 'delta_D', 'delta_E']
+joined_df = joined_df.dropna(how='any', subset=delta_labels)
+
+# logarithms of above for some regression methods
+joined_df['log1p_delta_A']  = np.log1p(joined_df['delta_A'])
+joined_df['log1p_delta_ABC']  = np.log1p(joined_df['delta_ABC'])
+joined_df['log1p_delta_D']  = np.log1p(joined_df['delta_D'])
+joined_df['log1p_delta_E']  = np.log1p(joined_df['delta_E'])
+
+# bucket angle of particle path relative to detector
+joined_df['angle_class'] = joined_df.apply(calc.incidence_angle_class, axis=1)
+
+dd.to_parquet(joined_df, '../../datasets/ephin_1995_1996/')
