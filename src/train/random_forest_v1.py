@@ -62,7 +62,7 @@ print(f'mean squared error {mse_d}')
 # print(f'mean absolute percent error {mape_d}')
 print(f'r^2 coefficient of determination {r2_d}')
 
-dump(multi_rf, '../../outputs/models/1996_RFE_center.skops')
+dump(multi_rf, '../../outputs/models/1996_RFE_center_v1.skops')
 
 # for fun let's test on other segments without training
 not_center_solar_data = joined_df.query('angle_class != 0').compute()
@@ -88,6 +88,7 @@ print(f'mean squared error {mse_not_center}')
 print(f'r^2 coefficient of determination {r2_not_center}')
 
 # save the testing set + predictions for some visualizations
+'''
 testing_X = pd.concat([X_test, X_not_center], axis=0, ignore_index=True)
 testing_y = pd.concat([y_test, y_not_center], axis=0, ignore_index=True)
 testing_set = pd.concat([testing_X, testing_y], axis=1, ignore_index=True)
@@ -104,10 +105,28 @@ testing_set.columns = [
 
 pred_d = np.concat([multi_predictions[:, 0], pred_not_center[:,0]])
 pred_e = np.concat([multi_predictions[:, 1], pred_not_center[:,1]])
+'''
+testing_X = X_test
+testing_y = y_test
+testing_set = pd.concat([testing_X, testing_y], axis=1, ignore_index=True)
+testing_set.columns = [
+    'log1p_delta_A',
+    'log1p_delta_B',
+    'log1p_delta_C',
+    'status_opp_err_frame',
+    'status_fma',
+    'status_fmb',
+    'log1p_delta_D',
+    'log1p_delta_E'
+]
+
+pred_d = multi_predictions[:, 0]
+pred_e = multi_predictions[:, 1]
 
 testing_set['pred_log1p_delta_D'] = pd.Series(pred_d, testing_set.index)
 testing_set['pred_log1p_delta_E'] = pd.Series(pred_e, testing_set.index)
-testing_set.to_parquet('../../datasets/test_predictions_1996_v1/test_predictions_1996_v1.parquet')
+#testing_set.to_parquet('../../datasets/test_predictions_1996_v1/test_predictions_1996_v1.parquet')
+testing_set.to_parquet('../../datasets/test_predictions_1996_v1/test_predictions_1996_v1_center.parquet')
 
 # these errors are calculated in terms of log (1 +x)
 # let's try converting back to MeV
