@@ -1,0 +1,17 @@
+Error on both predictions on log(x + 1) D + E
+mean absolute error 0.23210528731890967
+mean squared error 0.3172873499618174
+mean absolute percent error 500035617517640.06
+r^2 coefficient of determination 0.39818761777835116
+
+Error on both predictions on log(x + 1) D only
+mean absolute error 0.27777671656163744
+mean squared error 0.36491927061937174
+mean absolute percent error 579629388321778.6
+r^2 coefficient of determination 0.5851528096846732
+
+Overall, not bad, but needs more work.
+Error is pretty bad, but there is a clearly some pattern to pick up on
+
+Better r2 for D only but generally worse errors indicate that there is
+some kind of noise that the forest is not currently able to pick up on.

@@ -1,0 +1,21 @@
+Error on both predictions on log D + E
+mean absolute error 0.23300191987539964
+mean squared error 0.28756790363812035
+r^2 coefficient of determination 0.5624777951766418
+
+Error on both predictions on log D only
+mean absolute error 0.24448665756686294
+mean squared error 0.29221824849611394
+r^2 coefficient of determination 0.7048971410445615
+
+Error on non center predictions
+mean absolute error 0.26148326200224636
+mean squared error 0.36137658260222155
+r^2 coefficient of determination 0.2934201308136571
+
+Error on both predictions in MeV
+mean absolute error 1.4161708534820616
+mean squared error 16037968.55680719
+r^2 coefficient of determination 0.512417096068235
+
+Process finished with exit code 0

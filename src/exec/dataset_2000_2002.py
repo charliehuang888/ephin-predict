@@ -6,7 +6,7 @@ from src import calc
 
 # match the most closest (backwards) sci row to phx row to apply ephin state to phx data for ml analysis
 dataframes = []
-for year in range(1995, 1997):
+for year in range(2000, 2003):
     for day in range(1, 367):
         sci_files = fio.get_data_files('sci', str(year), str(day))
         phx_files = fio.get_data_files('phx', str(year), str(day))
@@ -67,4 +67,4 @@ joined_df['angle_class'] = joined_df.apply(calc.incidence_angle_class, axis=1)
 # defrag
 joined_df = joined_df.repartition(partition_size='200MB')
 
-dd.to_parquet(joined_df, '../../datasets/ephin_1995_1996/', overwrite=True)
+dd.to_parquet(joined_df, '../../datasets/ephin_2000_2002/', overwrite=True)
